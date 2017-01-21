@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import com.shw.netdisk.config.BeetlProperties;
 import com.shw.netdisk.storage.StorageProperties;
 import com.shw.netdisk.storage.StorageService;
 
@@ -17,7 +18,7 @@ import com.shw.netdisk.storage.StorageService;
 @Configuration
 @ComponentScan(basePackages = {"com.shw.netdisk.controller","com.shw.netdisk.storage", "com.shw.netdisk.application"})
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, ThymeleafAutoConfiguration.class})
-@EnableConfigurationProperties(StorageProperties.class)
+@EnableConfigurationProperties({StorageProperties.class, BeetlProperties.class})
 public class Application {
 	
 	public static void main(String[] args) {
