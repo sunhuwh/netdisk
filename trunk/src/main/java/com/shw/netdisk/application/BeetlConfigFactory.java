@@ -16,7 +16,7 @@ import org.springframework.core.io.support.ResourcePatternUtils;
 import com.shw.netdisk.config.BeetlProperties;
 
 @Configuration
-public class BeetlConfigFactory{
+public class BeetlConfigFactory {
 	
 	@Autowired
 	private BeetlProperties beetlProperties;
@@ -25,13 +25,14 @@ public class BeetlConfigFactory{
     public BeetlGroupUtilConfiguration getBeetlGroupUtilConfiguration() {
     	BeetlGroupUtilConfiguration beetlGroupUtilConfiguration = new BeetlGroupUtilConfiguration();
         ResourcePatternResolver patternResolver = ResourcePatternUtils.getResourcePatternResolver(new DefaultResourceLoader());
-        try {
-            // WebAppResourceLoader 配置root路径是关键
-            WebAppResourceLoader webAppResourceLoader = new WebAppResourceLoader(patternResolver.getResource(beetlProperties.getRoot()).getFile().getPath());
-            beetlGroupUtilConfiguration.setResourceLoader(webAppResourceLoader);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+		try {
+			// WebAppResourceLoader 配置root路径是关键
+			WebAppResourceLoader webAppResourceLoader = new WebAppResourceLoader(patternResolver.getResource(beetlProperties.getRoot()).getFile().getPath());
+			beetlGroupUtilConfiguration.setResourceLoader(webAppResourceLoader);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         //读取配置文件信息
         return beetlGroupUtilConfiguration;
     }
@@ -39,7 +40,7 @@ public class BeetlConfigFactory{
     @Bean(name = "beetlViewResolver")
     public BeetlSpringViewResolver getBeetlSpringViewResolver(@Qualifier("beetlConfig") BeetlGroupUtilConfiguration beetlGroupUtilConfiguration) {
         BeetlSpringViewResolver beetlSpringViewResolver = new BeetlSpringViewResolver();
-        beetlSpringViewResolver.setPrefix(beetlProperties.getPrefix());
+        beetlSpringViewResolver.setPrefix("/");
         beetlSpringViewResolver.setSuffix(beetlProperties.getSuffix());
         beetlSpringViewResolver.setContentType(beetlProperties.getContentType());
         beetlSpringViewResolver.setOrder(beetlProperties.getOrder());
