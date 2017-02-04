@@ -20,4 +20,6 @@ public interface StorageService {
 
     void deleteAll();
 
+	boolean existed(Path path);
+
 }
