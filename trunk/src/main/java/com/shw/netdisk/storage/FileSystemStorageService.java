@@ -53,12 +53,35 @@ public class FileSystemStorageService implements StorageService {
     }
     
     private String refactorFileName(MultipartFile file) {
+    	String a = "abc";
+    	String b = a.substring(a.lastIndexOf(".")==-1? 0 : a.lastIndexOf("."));
+    	System.out.println("sub_b:"+b);
+    	
     	String fileName = file.getOriginalFilename();
     	List<String> likeFileNames = fileService.listByName(fileName);
-    	String lastFileName = likeFileNames.get(likeFileNames.size());
-    	int num = Integer.valueOf(lastFileName.substring(lastFileName.lastIndexOf("("), lastFileName.lastIndexOf(")")));
+    	String lastFileName = likeFileNames.get(likeFileNames.size()-1);
+    	
+    	if(hasExt(file.getOriginalFilename())){
+    		
+    		
+    	}else{
+    		
+    		String ext = lastFileName.substring(lastFileName.lastIndexOf("."));
+        	System.out.println("ext:"+ext);
+        	
+        	
+        	
+    	}
+    	
+    	
+    	
+    	int num = Integer.valueOf(lastFileName.substring(lastFileName.lastIndexOf("(")+1, lastFileName.lastIndexOf(")")));
     	System.out.println("new file name:---"+fileName + "(" + num + ")");
 		return fileName + "(" + num + ")";
+	}
+
+	private boolean hasExt(String fileName) {
+		return fileName.indexOf(".")!=-1;
 	}
 
 	@Override

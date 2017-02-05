@@ -16,7 +16,8 @@ import com.shw.netdisk.storage.StorageService;
 
 
 @Configuration
-@ComponentScan(basePackages = {"com.shw.netdisk.controller","com.shw.netdisk.storage", "com.shw.netdisk.application"})
+@ComponentScan(basePackages = {"com.shw.netdisk.controller","com.shw.netdisk.storage", "com.shw.netdisk.application",
+		"com.shw.netdisk.serviceImpl"})
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, ThymeleafAutoConfiguration.class})
 @EnableConfigurationProperties({StorageProperties.class, BeetlProperties.class})
 public class Application {
@@ -32,48 +33,5 @@ public class Application {
             storageService.init();
 		};
 	}
-	
-	/*@Bean(name = DispatcherServlet.MULTIPART_RESOLVER_BEAN_NAME)
-    public CommonsMultipartResolverExt multipartResolver() {
-		CommonsMultipartResolverExt commonsMultipartResolverExt = new CommonsMultipartResolverExt();
-		commonsMultipartResolverExt.setDefaultEncoding("UTF-8");
-		commonsMultipartResolverExt.setMaxUploadSize(50*1024*1024);
-		return commonsMultipartResolverExt;
-	}*/
-	
-	/*@Bean
-    public HttpMessageConverters customConverters() {
-
-        //fastjson处理消息转换
-		//JacksonAutoConfiguration jacksonAutoConfiguration = new JacksonAutoConfiguration();
-		
-		
-        FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
-        FastJsonConfig fastJsonConfig = new FastJsonConfig();
-        fastJsonConfig.setSerializerFeatures(SerializerFeature.WriteMapNullValue);
-        
-          List<MediaType> fastMediaTypes = new ArrayList<>();
-          fastMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
-          fastConverter.setSupportedMediaTypes(fastMediaTypes);
-        
-        fastConverter.setFastJsonConfig(fastJsonConfig);
-
-        //文件下载使用ByteArrayHttpMessageConverter处理
-        ByteArrayHttpMessageConverter byteArrayHttpMessageConverter = new ByteArrayHttpMessageConverter();
-        byteArrayHttpMessageConverter.setDefaultCharset(Charset.forName("UTF-8"));
-        
-         //ByteArrayHttpMessageConverter默认处理请求类型就是APPLICATION_OCTET_STREAM
-         List<MediaType> byteMediaTypes = new ArrayList<>();
-         byteMediaTypes.add(MediaType.APPLICATION_OCTET_STREAM);
-         byteArrayHttpMessageConverter.setSupportedMediaTypes(byteMediaTypes);
-         
-        List<HttpMessageConverter<?>> converters = new ArrayList<>();
-        converters.add(fastConverter);
-        converters.add(byteArrayHttpMessageConverter);
-
-        return new HttpMessageConverters(converters);
-    }
-	*/
-	
 	
 }
