@@ -40,6 +40,7 @@ public class FileSystemStorageService implements StorageService {
             }
             if(this.existed(targetPath)){
             	String newFileName = refactorFileName(file);
+            	System.out.println("newFileName---:"+newFileName);
             	Files.copy(file.getInputStream(), this.rootLocation.resolve(newFileName));
             }else{
             	Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
@@ -53,31 +54,26 @@ public class FileSystemStorageService implements StorageService {
     }
     
     private String refactorFileName(MultipartFile file) {
-    	String a = "abc";
-    	String b = a.substring(a.lastIndexOf(".")==-1? 0 : a.lastIndexOf("."));
-    	System.out.println("sub_b:"+b);
-    	
     	String fileName = file.getOriginalFilename();
     	List<String> likeFileNames = fileService.listByName(fileName);
     	String lastFileName = likeFileNames.get(likeFileNames.size()-1);
-    	
-    	if(hasExt(file.getOriginalFilename())){
-    		
-    		
+    	if(hasExt(fileName)){
+    		String ext = lastFileName.substring(lastFileName.lastIndexOf(".")+1);
+    		String name = lastFileName.substring(0, lastFileName.lastIndexOf("."));
+    		if(likeFileNames.size()==1){
+    			return name+"(1)."+ext;
+    		}
+    		String numstr = name.substring(name.lastIndexOf("(")+1, name.lastIndexOf(")"));
+    		int num = Integer.valueOf(numstr)+1;
+    		return name.substring(0, name.lastIndexOf("("))+"("+num+")."+ext;
     	}else{
-    		
-    		String ext = lastFileName.substring(lastFileName.lastIndexOf("."));
-        	System.out.println("ext:"+ext);
-        	
-        	
-        	
+    		if(likeFileNames.size()==1){
+    			return fileName+"(1)";
+    		}
+    		String numstr = lastFileName.substring(lastFileName.lastIndexOf("(")+1, lastFileName.lastIndexOf(")"));
+    		int num = Integer.valueOf(numstr)+1;
+    		return lastFileName.substring(0, lastFileName.lastIndexOf("("))+"("+num+")";
     	}
-    	
-    	
-    	
-    	int num = Integer.valueOf(lastFileName.substring(lastFileName.lastIndexOf("(")+1, lastFileName.lastIndexOf(")")));
-    	System.out.println("new file name:---"+fileName + "(" + num + ")");
-		return fileName + "(" + num + ")";
 	}
 
 	private boolean hasExt(String fileName) {
