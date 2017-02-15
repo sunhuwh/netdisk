@@ -60,20 +60,21 @@ public class FileSystemStorageService implements StorageService {
     	if(hasExt(fileName)){
     		String ext = lastFileName.substring(lastFileName.lastIndexOf(".")+1);
     		String name = lastFileName.substring(0, lastFileName.lastIndexOf("."));
-    		if(likeFileNames.size()==1){
-    			return name+"(1)."+ext;
-    		}
-    		String numstr = name.substring(name.lastIndexOf("(")+1, name.lastIndexOf(")"));
-    		int num = Integer.valueOf(numstr)+1;
+    		int num = getNumber(name, likeFileNames);
     		return name.substring(0, name.lastIndexOf("("))+"("+num+")."+ext;
     	}else{
-    		if(likeFileNames.size()==1){
-    			return fileName+"(1)";
-    		}
-    		String numstr = lastFileName.substring(lastFileName.lastIndexOf("(")+1, lastFileName.lastIndexOf(")"));
-    		int num = Integer.valueOf(numstr)+1;
+    		int num = getNumber(lastFileName, likeFileNames);
     		return lastFileName.substring(0, lastFileName.lastIndexOf("("))+"("+num+")";
     	}
+	}
+
+	private int getNumber(String name, List<String> likeFileNames) {
+		if(likeFileNames.size()==1){
+			return 1;
+		}
+		String numstr = name.substring(name.lastIndexOf("(")+1, name.lastIndexOf(")"));
+		int num = Integer.valueOf(numstr)+1;
+		return num;
 	}
 
 	private boolean hasExt(String fileName) {
